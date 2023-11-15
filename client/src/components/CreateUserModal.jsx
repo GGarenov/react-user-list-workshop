@@ -1,7 +1,7 @@
 const CreateUserModal = ({ hideCreateUserModel }) => {
   return (
     <div className="overlay">
-      <div className="backdrop"></div>
+      <div className="backdrop" onClick={hideCreateUserModel}></div>
       <div className="modal">
         <div className="user-container">
           <header className="headers">
