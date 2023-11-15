@@ -9,7 +9,10 @@ const UserListTable = () => {
   const [showCreate, setShowCreate] = useState(false);
 
   useEffect(() => {
-    userService.getAll().then((result) => setUsers(result));
+    userService
+      .getAll()
+      .then((result) => setUsers(result))
+      .catch((err) => console.log(err));
   }, []);
 
   const createUserClickHandler = () => {
@@ -20,9 +23,20 @@ const UserListTable = () => {
     setShowCreate(false);
   };
 
+  const userCreateHandler = async (e) => {
+    e.preventDefault();
+
+    const data = Object.fromEntries(new FormData(e.currentTager));
+
+    const newUser = await userService.create(data);
+
+    setUsers((state) => [...state, newUser]);
+    setShowCreate(false);
+  };
+
   return (
     <div className="table-wrapper">
-      {showCreate && <CreateUserModal hideCreateUserModel={hideCreateUserModel} />}
+      {showCreate && <CreateUserModal hideCreateUserModel={hideCreateUserModel} onUserCreate={userCreateHandler} />}
       {/* <!-- <div className="loading-shade"> -->
       <!-- Loading spinner  -->
       <!-- <div className="spinner"></div> -->
